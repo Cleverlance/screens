@@ -1,0 +1,20 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion projectCompileSdkVersion
+    buildToolsVersion projectBuildToolsVersion
+    defaultConfig {
+        applicationId "com.cleverlance.screens.sample"
+        minSdkVersion projectMinSdkVersion
+        targetSdkVersion projectTargetSdkVersion
+    }
+
+    sourceSets { main.java.srcDirs += 'src/main/kotlin' }
+
+    lintOptions { abortOnError false }
+}
+
+dependencies {
+    compile project(':screens')
+}

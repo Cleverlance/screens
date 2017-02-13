@@ -1,0 +1,36 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion projectCompileSdkVersion
+    buildToolsVersion projectBuildToolsVersion
+
+    defaultConfig {
+        minSdkVersion projectMinSdkVersion
+        targetSdkVersion projectTargetSdkVersion
+    }
+
+    sourceSets { main.java.srcDirs += 'src/main/kotlin' }
+
+    lintOptions { abortOnError false }
+}
+
+dependencies {
+    // Core libs
+    compile supportAppCompat
+    compile kotlinStdLib
+    compile ankoCommon
+    compile ankoSdk21
+    // DI libs
+    compile dagger
+    // Rx libs
+    compile rxJava
+    compile rxAndroid
+    compile rxRelay
+
+    testCompile spekApi
+    testCompile spekJUnitPlatformEngine
+    testCompile jUnitPlatformRunner
+    testCompile mockitoKotlin
+    testCompile hamkrest
+}
