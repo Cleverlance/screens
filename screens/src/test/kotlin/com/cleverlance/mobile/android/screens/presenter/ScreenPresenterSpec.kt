@@ -72,7 +72,7 @@ internal class ScreenPresenterSpec : SubjectSpek<ScreenPresenter>({
 
     context("ensure first screen") {
         it("should create exactly one init screen") {
-            val screenInvoker = mock<ScreenInvoker<BasePresenterView>> {
+            val screenInvoker = mock<ScreenInvoker> {
                 whenever(it.createScreen()).then { subject.setScreen(mock()) }
             }
 
