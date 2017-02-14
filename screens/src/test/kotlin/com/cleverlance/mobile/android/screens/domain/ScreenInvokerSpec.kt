@@ -13,23 +13,20 @@ import org.junit.runner.RunWith
 
 @RunWith(JUnitPlatform::class)
 internal class ScreenInvokerSpec : SubjectSpek<ScreenInvoker>({
-    var screenPresenter = spy<ScreenPresenter>()
+    val screenPresenter = spy<ScreenPresenter>()
     beforeEachTest {
-        screenPresenter = spy<ScreenPresenter>()
+        reset(screenPresenter)
         subject {
             object : ScreenInvoker() {
-                override val screenPresenter: ScreenPresenter
-                    get() = screenPresenter
-                override val screenFactory: ScreenFactory
-                    get() = object : ScreenFactory {
-                        override fun createScreen(back: ((Activity) -> Boolean)): Screen {
-                            return BaseScreen(back = back,
-                                    viewProvider = mock <ViewProvider <*>>())
-                        }
+                override val screenPresenter: ScreenPresenter = screenPresenter
+                override val screenFactory: ScreenFactory = object : ScreenFactory {
+                    override fun createScreen(back: ((Activity) -> Boolean)): Screen {
+                        return BaseScreen(back = back,
+                                viewProvider = mock <ViewProvider <*>>())
                     }
+                }
             }
         }
-
     }
 
     it("should create screen") {
