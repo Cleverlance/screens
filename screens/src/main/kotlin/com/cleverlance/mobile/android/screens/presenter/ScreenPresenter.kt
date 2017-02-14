@@ -21,7 +21,7 @@ class ScreenPresenter @Inject constructor() {
 
     fun setScreen(screen: Screen) = this.screen.accept(screen)
 
-    fun <T : ScreenInvoker<D>, D : BasePresenterView> ensureFirstScreen(invoker: T) {
+    fun ensureFirstScreen(invoker: ScreenInvoker) {
         if (!screen.hasValue()) invoker.createScreen()
     }
 

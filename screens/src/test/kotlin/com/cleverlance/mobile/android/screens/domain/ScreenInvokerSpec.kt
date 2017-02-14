@@ -1,6 +1,7 @@
 package com.cleverlance.mobile.android.screens.domain
 
-import com.cleverlance.mobile.android.screens.presenter.BasePresenterView
+import android.app.Activity
+import com.cleverlance.mobile.android.screens.presenter.ScreenPresenter
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import com.nhaarman.mockito_kotlin.*
@@ -11,18 +12,23 @@ import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
 
 @RunWith(JUnitPlatform::class)
-internal class ScreenInvokerSpec : SubjectSpek<ScreenInvoker<BasePresenterView>>({
+internal class ScreenInvokerSpec : SubjectSpek<ScreenInvoker>({
     subject {
-        object : ScreenInvoker<BasePresenterView>() {}.apply {
-            screenPresenter = spy()
-            viewProvider = mock()
+        object : ScreenInvoker() {
+            override val screenPresenter: ScreenPresenter = spy()
+            override val screenFactory: ScreenFactory = object : ScreenFactory {
+                override fun createScreen(back: ((Activity) -> Boolean)): Screen {
+                    return BaseScreen(back = back,
+                            viewProvider = mock <ViewProvider <*>>())
+                }
+            }
         }
     }
 
     it("should create screen") {
         subject.createScreen()
 
-        verify(subject.screenPresenter).setScreen(any<BaseScreen<BasePresenterView>>())
+        verify(subject.screenPresenter).setScreen(any<BaseScreen<*>>())
     }
 
     it("should create screen with reset") {
