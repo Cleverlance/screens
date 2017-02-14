@@ -13,17 +13,13 @@ import org.junit.runner.RunWith
 
 @RunWith(JUnitPlatform::class)
 internal class ScreenInvokerSpec : SubjectSpek<ScreenInvoker>({
-    val screenPresenter = spy<ScreenPresenter>()
-    beforeEachTest {
-        reset(screenPresenter)
-        subject {
-            object : ScreenInvoker() {
-                override val screenPresenter: ScreenPresenter = screenPresenter
-                override val screenFactory: ScreenFactory = object : ScreenFactory {
-                    override fun createScreen(back: ((Activity) -> Boolean)): Screen {
-                        return BaseScreen(back = back,
-                                viewProvider = mock <ViewProvider <*>>())
-                    }
+    subject {
+        object : ScreenInvoker() {
+            override val screenPresenter: ScreenPresenter = spy()
+            override val screenFactory: ScreenFactory = object : ScreenFactory {
+                override fun createScreen(back: ((Activity) -> Boolean)): Screen {
+                    return BaseScreen(back = back,
+                            viewProvider = mock <ViewProvider <*>>())
                 }
             }
         }
@@ -32,18 +28,18 @@ internal class ScreenInvokerSpec : SubjectSpek<ScreenInvoker>({
     it("should create screen") {
         subject.createScreen()
 
-        verify(screenPresenter).setScreen(any<BaseScreen<*>>())
+        verify(subject.screenPresenter).setScreen(any<BaseScreen<*>>())
     }
 
     it("should create screen with reset") {
         subject.createScreen({ false })
 
         argumentCaptor<Screen>().run {
-            verify(screenPresenter).setScreen(capture())
+            verify(subject.screenPresenter).setScreen(capture())
 
             assertThat(allValues.size, equalTo(1))
             println(lastValue)
-            assertThat(screenPresenter.back(mock()), equalTo(false))
+            assertThat(subject.screenPresenter.back(mock()), equalTo(false))
         }
     }
 
@@ -51,13 +47,13 @@ internal class ScreenInvokerSpec : SubjectSpek<ScreenInvoker>({
         it("should default back to previous screen") {
             val firstScreen = mock<Screen>()
 
-            screenPresenter.setScreen(firstScreen)
+            subject.screenPresenter.setScreen(firstScreen)
 
             subject.createScreen()
 
-            assertThat(screenPresenter.back(mock()), equalTo(true)) // back consumed
+            assertThat(subject.screenPresenter.back(mock()), equalTo(true)) // back consumed
 
-            assertThat(screenPresenter.getScreen(), equalTo(firstScreen))
+            assertThat(subject.screenPresenter.getScreen(), equalTo(firstScreen))
         }
     }
 })
