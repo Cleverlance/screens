@@ -1,6 +1,5 @@
 package com.cleverlance.mobile.android.screens.domain
 
-import com.cleverlance.mobile.android.screens.presenter.BasePresenterView
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import com.natpryce.hamkrest.throws
@@ -14,8 +13,8 @@ import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
 
 @RunWith(JUnitPlatform::class)
-internal class PagesConfigurationSpec : SubjectSpek<PagerConfiguration<BasePresenterView>>({
-    subject { PagerConfiguration<BasePresenterView>() }
+internal class PagesConfigurationSpec : SubjectSpek<PagerConfiguration>({
+    subject { PagerConfiguration() }
 
     describe("no tabs") {
         context("get tab") {
@@ -63,4 +62,4 @@ internal class PagesConfigurationSpec : SubjectSpek<PagerConfiguration<BasePrese
     }
 })
 
-private fun mockPageScreen() = mock<PageScreen<BasePresenterView>>()
+private fun mockPageScreen() = mock<PageScreen>()

@@ -10,7 +10,7 @@ internal class ScreenContainer(private val container: ViewGroup, private val act
     internal fun setScreen(screen: Screen) {
         removeCurrentScreen()
 
-        screen.presenterView().run {
+        screen.createView().run {
             activity = this@ScreenContainer.activity
             val view = createView(container)
             container.addView(view)

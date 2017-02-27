@@ -2,7 +2,6 @@ package com.cleverlance.mobile.android.screens.view
 
 import android.view.View
 import com.cleverlance.mobile.android.screens.domain.PagerConfiguration
-import com.cleverlance.mobile.android.screens.presenter.BasePresenterView
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import com.nhaarman.mockito_kotlin.mock
@@ -16,7 +15,7 @@ import org.junit.runner.RunWith
 @RunWith(JUnitPlatform::class)
 internal class BasePagerAdapterSpec : SubjectSpek<BasePagerAdapter>({
     subject {
-        val pageConfig = mock<PagerConfiguration<BasePresenterView>>()
+        val pageConfig = mock<PagerConfiguration>()
         object : BasePagerAdapter(pageConfig) {}
     }
 

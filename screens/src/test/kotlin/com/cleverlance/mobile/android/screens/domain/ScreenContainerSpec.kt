@@ -36,7 +36,7 @@ internal class ScreenContainerSpec : SubjectSpek<ScreenContainer>({
                 presenterView = mock<BasePresenterView> {
                     whenever(it.createView(any())).thenReturn(mock())
                 }
-                whenever(screen.presenterView()).thenReturn(presenterView)
+                whenever(screen.createView()).thenReturn(presenterView)
             }
 
             it("should insert screen into container") {

@@ -16,6 +16,6 @@ internal class PageInvokerSpec : Spek({
         val pageInvoker = object : PageInvoker<BasePresenterView>() {}
         val viewProvider = mock<ViewProvider<BasePresenterView>>()
         pageInvoker.viewProvider = viewProvider
-        assertThat(pageInvoker.createPage(), isA<PageScreen<BasePresenterView>>())
+        assertThat(pageInvoker.createPage(), isA<PageScreen>())
     }
 })

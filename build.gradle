@@ -34,6 +34,7 @@ ext {
     supportAppCompat = "com.android.support:appcompat-v7:$androidSupportVersion"
     supportDesign = "com.android.support:design:$androidSupportVersion"
     kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    kotlinTest = "org.jetbrains.kotlin:kotlin-test:$kotlinVersion"
     ankoCommon = "org.jetbrains.anko:anko-common:$ankoVersion"
     ankoSdk21 = "org.jetbrains.anko:anko-sdk21:$ankoVersion"
     ankoAppCompat = "org.jetbrains.anko:anko-appcompat-v7:$ankoVersion"

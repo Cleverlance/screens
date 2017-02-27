@@ -19,9 +19,13 @@ internal class BaseScreenSpec : Spek({
             val viewProvider = spy<ViewProvider<BasePresenterView>>()
             val createdView = mock<BasePresenterView>()
             viewProvider.viewProvider = mock { whenever(it.get()).thenReturn(createdView) }
-            val screen = BaseScreen({ false }, viewProvider)
+            val screen = object : BaseScreen() {
+                override fun createView(): BasePresenterView {
+                    return createdView
+                }
+            }
 
-            assertThat(screen.presenterView(), isA<BasePresenterView>())
+            assertThat(screen.createView(), isA<BasePresenterView>())
         }
     }
 })

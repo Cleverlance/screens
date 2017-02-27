@@ -1,11 +1,18 @@
 package com.cleverlance.mobile.android.screens.domain
 
-import android.app.Activity
-import com.cleverlance.mobile.android.screens.presenter.BasePresenterView
+import io.reactivex.disposables.Disposable
 
-class BaseScreen<out V : BasePresenterView>(
-        override val back: (Activity) -> Boolean = { false },
-        private val viewProvider: ViewProvider<V>) : Screen() {
+abstract class BaseScreen : Screen() {
 
-    override fun presenterView() = viewProvider.createView()
+    lateinit var dispose: Disposable
+
+    fun onShow(dispose: Disposable) {
+        this.dispose = dispose
+    }
+
+    /** @return true if back action was consumed by the call */
+    fun onBackPressed(): Boolean {
+        dispose.dispose()
+        return true
+    }
 }

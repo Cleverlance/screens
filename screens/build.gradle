@@ -31,6 +31,7 @@ dependencies {
     compile rxAndroid
     compile rxRelay
 
+    testCompile kotlinTest
     testCompile spekApi
     testCompile spekJUnitPlatformEngine
     testCompile jUnitPlatformRunner

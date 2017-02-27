@@ -5,10 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.cleverlance.mobile.android.screens.domain.PagerConfiguration
 import com.cleverlance.mobile.android.screens.domain.Screen
-import com.cleverlance.mobile.android.screens.presenter.BasePresenterView
 import org.jetbrains.anko.*
 
-open class BasePagerAdapter(val pagerConfig: PagerConfiguration<in BasePresenterView>) : PagerAdapter() {
+open class BasePagerAdapter(val pagerConfig: PagerConfiguration) : PagerAdapter() {
 
     override fun instantiateItem(container: ViewGroup?, position: Int) =
             createScreenContainer(container!!, pagerConfig.getTab(position))

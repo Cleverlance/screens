@@ -1,7 +1,7 @@
 package com.cleverlance.mobile.android.screens.presenter
 
-import com.cleverlance.mobile.android.screens.domain.Screen
-import com.cleverlance.mobile.android.screens.domain.ScreenInvoker
+import com.cleverlance.mobile.android.screens.domain.BaseScreen
+import com.cleverlance.mobile.android.screens.domain.ScreenFactory
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import com.nhaarman.mockito_kotlin.mock
@@ -26,7 +26,7 @@ internal class ScreenPresenterSpec : SubjectSpek<ScreenPresenter>({
 
     context("set screen") {
         it("should put new screen on top") {
-            val screen = mock<Screen>()
+            val screen = mock<BaseScreen>()
 
             subject.setScreen(screen)
 
@@ -36,11 +36,11 @@ internal class ScreenPresenterSpec : SubjectSpek<ScreenPresenter>({
 
     context("back") {
         it("should go back to previous screen") {
-            val firstScreen = mock<Screen>()
+            val firstScreen = mock<BaseScreen>()
 
             subject.setScreen(firstScreen)
 
-            subject.onBackShowPrevious()(mock())
+            subject.onDisposeShowCurrent().dispose()
 
             subject.screenObservable().test().assertValue(firstScreen)
             assertThat(subject.getScreen(), equalTo(firstScreen))
@@ -54,7 +54,7 @@ internal class ScreenPresenterSpec : SubjectSpek<ScreenPresenter>({
 
             observer.assertNoValues()
 
-            val screen = mock<Screen>()
+            val screen = mock<BaseScreen>()
 
             subject.setScreen(screen)
 
@@ -62,8 +62,8 @@ internal class ScreenPresenterSpec : SubjectSpek<ScreenPresenter>({
         }
 
         it("should have non-consume back action when going back from initial screen") {
-            val screen = mock<Screen> {
-                whenever(it.back).thenReturn { false }
+            val screen = mock<BaseScreen> {
+                whenever(it.onBackPressed()).thenReturn(false)
             }
             subject.setScreen(screen)
             assertThat(subject.back(mock()), equalTo(false))
@@ -72,14 +72,16 @@ internal class ScreenPresenterSpec : SubjectSpek<ScreenPresenter>({
 
     context("ensure first screen") {
         it("should create exactly one init screen") {
-            val screenInvoker = mock<ScreenInvoker> {
-                whenever(it.createScreen()).then { subject.setScreen(mock()) }
+            val screen = mock<BaseScreen>()
+            val screenFactory = mock<ScreenFactory> {
+                whenever(it.createScreen()).thenReturn(screen)
             }
 
-            subject.ensureFirstScreen(screenInvoker)
-            subject.ensureFirstScreen(screenInvoker)
+            subject.ensureFirstScreen(screenFactory)
+            subject.ensureFirstScreen(screenFactory)
 
-            verify(screenInvoker, times(1)).createScreen()
+            verify(screenFactory, times(1)).createScreen()
+            subject.screenObservable().test().assertValue(screen)
         }
     }
 })

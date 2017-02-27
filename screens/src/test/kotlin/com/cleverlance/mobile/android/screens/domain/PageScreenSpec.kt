@@ -21,7 +21,7 @@ class PageScreenSpec : Spek({
             viewProvider.viewProvider = mock { whenever(it.get()).thenReturn(createdView) }
             val screen = PageScreen(viewProvider)
 
-            assertThat(screen.presenterView(), isA<BasePresenterView>())
+            assertThat(screen.createView(), isA<BasePresenterView>())
         }
     }
 })

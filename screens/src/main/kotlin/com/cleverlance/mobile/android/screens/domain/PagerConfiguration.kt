@@ -1,10 +1,8 @@
 package com.cleverlance.mobile.android.screens.domain
 
-import com.cleverlance.mobile.android.screens.presenter.BasePresenterView
+class PagerConfiguration(var initPosition: Int = 0, vararg pages: PageScreen) {
 
-class PagerConfiguration<V : BasePresenterView>(var initPosition: Int = 0, vararg pages: PageScreen<V>) {
-
-    private val tabs = mutableListOf<PageScreen<V>>()
+    private val tabs = mutableListOf<PageScreen>()
 
     init {
         for (page in pages)
@@ -15,5 +13,5 @@ class PagerConfiguration<V : BasePresenterView>(var initPosition: Int = 0, varar
 
     internal fun count() = tabs.size
 
-    internal fun registerPage(page: PageScreen<V>) = run<Unit> { tabs.add(page) }
+    internal fun registerPage(page: PageScreen) = run<Unit> { tabs.add(page) }
 }

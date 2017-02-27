@@ -1,10 +1,11 @@
 package com.cleverlance.mobile.android.screens.domain
 
-import android.app.Activity
+import com.cleverlance.mobile.android.screens.presenter.BasePresenterView
 import com.cleverlance.mobile.android.screens.presenter.ScreenPresenter
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import com.nhaarman.mockito_kotlin.*
+import io.reactivex.disposables.Disposable
 import org.jetbrains.spek.api.SubjectSpek
 import org.jetbrains.spek.api.dsl.context
 import org.jetbrains.spek.api.dsl.it
@@ -17,39 +18,44 @@ internal class ScreenInvokerSpec : SubjectSpek<ScreenInvoker>({
         object : ScreenInvoker() {
             override val screenPresenter: ScreenPresenter = spy()
             override val screenFactory: ScreenFactory = object : ScreenFactory {
-                override fun createScreen(back: ((Activity) -> Boolean)): Screen {
-                    return BaseScreen(back = back,
-                            viewProvider = mock <ViewProvider <*>>())
+                override fun createScreen(): BaseScreen {
+                    return object : BaseScreen() {
+                        override fun createView(): BasePresenterView {
+                            return mock()
+                        }
+                    }
                 }
             }
         }
     }
 
     it("should create screen") {
-        subject.createScreen()
+        subject.showScreen()
 
-        verify(subject.screenPresenter).setScreen(any<BaseScreen<*>>())
+        verify(subject.screenPresenter).setScreen(any<BaseScreen>())
     }
 
     it("should create screen with reset") {
-        subject.createScreen({ false })
+        val dispose = mock<Disposable>()
+        subject.showScreen(dispose)
 
-        argumentCaptor<Screen>().run {
+        argumentCaptor<BaseScreen>().run {
             verify(subject.screenPresenter).setScreen(capture())
 
             assertThat(allValues.size, equalTo(1))
             println(lastValue)
-            assertThat(subject.screenPresenter.back(mock()), equalTo(false))
+            assertThat(subject.screenPresenter.back(mock()), equalTo(true))
+            verify(dispose).dispose()
         }
     }
 
     context("back") {
         it("should default back to previous screen") {
-            val firstScreen = mock<Screen>()
+            val firstScreen = mock<BaseScreen>()
 
             subject.screenPresenter.setScreen(firstScreen)
 
-            subject.createScreen()
+            subject.showScreen()
 
             assertThat(subject.screenPresenter.back(mock()), equalTo(true)) // back consumed
 

@@ -1,36 +1,36 @@
 package com.cleverlance.mobile.android.screens.presenter
 
 import android.app.Activity
-import com.cleverlance.mobile.android.screens.domain.Screen
-import com.cleverlance.mobile.android.screens.domain.ScreenInvoker
+import com.cleverlance.mobile.android.screens.domain.BaseScreen
+import com.cleverlance.mobile.android.screens.domain.NoScreen
+import com.cleverlance.mobile.android.screens.domain.ScreenFactory
 import com.jakewharton.rxrelay2.BehaviorRelay
 import io.reactivex.Observable
+import io.reactivex.disposables.Disposable
+import io.reactivex.disposables.Disposables
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class ScreenPresenter @Inject constructor() {
-    private val screen: BehaviorRelay<Screen> = BehaviorRelay.create()
+    private val screen: BehaviorRelay<BaseScreen> = BehaviorRelay.createDefault(NoScreen())
 
-    fun back(activity: Activity): Boolean = getScreen().back(activity)
+    fun back(activity: Activity): Boolean = getScreen().onBackPressed()
 
-    fun screenObservable(): Observable<Screen> = screen
+    // TODO pass NoScreen or not?
+    fun screenObservable(): Observable<BaseScreen> = screen.filter { it !is NoScreen }
 
     @Deprecated(message = "probably nobody should need this - each screen knows that it shows itself")
-            /* private */ fun getScreen(): Screen = screen.value
+            /* private */ fun getScreen(): BaseScreen = screen.value
 
-    fun setScreen(screen: Screen) = this.screen.accept(screen)
+    fun setScreen(screen: BaseScreen) = this.screen.accept(screen)
 
-    fun ensureFirstScreen(invoker: ScreenInvoker) {
-        if (!screen.hasValue()) invoker.createScreen()
+    fun ensureFirstScreen(invoker: ScreenFactory) {
+        if (screen.value is NoScreen) setScreen(invoker.createScreen())
     }
 
-    fun onBackShowPrevious(): (Activity) -> Boolean {
-        if (screen.hasValue()) {
-            val previousScreen = getScreen()
-            return { setScreen(previousScreen); true }
-        } else {
-            return { false }
-        }
+    fun onDisposeShowCurrent(): Disposable {
+        val previousScreen = getScreen() // capture current screen
+        return Disposables.fromRunnable { setScreen(previousScreen) }
     }
 }
