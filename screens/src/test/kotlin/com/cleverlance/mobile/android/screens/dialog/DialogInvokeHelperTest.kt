@@ -18,7 +18,7 @@ class DialogInvokeHelperTest {
     private val anyResult = TestResult("AnyResult")
     private val anyError = Exception("UserCancelled")
     private lateinit var testResultSubscriber: TestObserver<TestResult>
-    @Mock private lateinit var screenFlow: ScreenFlow<AnyScreen>
+    @Mock internal lateinit var screenFlow: ScreenFlow<AnyScreen>
     private lateinit var dialogInvokeHelper: GenericDialogInvokeHelper<AnyScreen>
     private lateinit var screenFactory: ScreenFactory<TestResult, AnyScreen>
     private lateinit var inOrder: InOrder
@@ -36,7 +36,9 @@ class DialogInvokeHelperTest {
         MockitoAnnotations.initMocks(this)
         testResultSubscriber = spy(TestObserver())
         inOrder = inOrder(screenFlow, testResultSubscriber, dismissScreen)
-        dialogInvokeHelper = GenericDialogInvokeHelper(screenFlow)
+        dialogInvokeHelper = object : GenericDialogInvokeHelper<AnyScreen>() {
+            override val screenFlow: ScreenFlow<AnyScreen> get() = this@DialogInvokeHelperTest.screenFlow
+        }
         screenFactory = createScreenFactory()
         whenever(screenFlow.show(any(), any())).thenReturn(dismissScreen)
     }

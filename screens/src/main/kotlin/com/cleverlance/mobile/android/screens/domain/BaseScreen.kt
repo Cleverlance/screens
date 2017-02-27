@@ -11,7 +11,7 @@ abstract class BaseScreen : Screen() {
     }
 
     /** @return true if back action was consumed by the call */
-    fun onBackPressed(): Boolean {
+    open fun onBackPressed(): Boolean {
         dispose.dispose()
         return true
     }
