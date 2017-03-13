@@ -2,7 +2,6 @@ package com.cleverlance.mobile.android.screens.presenter
 
 import android.view.View
 import android.view.ViewGroup
-import com.natpryce.hamkrest.absent
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.isA
 import io.reactivex.disposables.Disposable
@@ -28,12 +27,6 @@ internal class BasePresenterViewSpec : SubjectSpek<BasePresenterView>({
     context("bind presenter") {
         it("should bind view to presenter via disposable") {
             assertThat(subject.bindPresenter(), isA<Disposable>())
-        }
-    }
-
-    context("title") {
-        it("should get default null") {
-            assertThat(subject.title(), absent())
         }
     }
 })

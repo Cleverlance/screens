@@ -4,7 +4,6 @@ import com.cleverlance.mobile.android.screens.presenter.BasePresenterView
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.disposables.Disposables
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.context
@@ -40,15 +39,6 @@ internal class ScreenSpec : Spek({
     context("presenter view") {
         it("should get valid presenter view") {
             assertThat(screen.createView(), equalTo(presenterView))
-        }
-    }
-
-    context("title") {
-        it("should get valid title") {
-            val title = "test"
-            whenever(presenterView.title()).thenReturn(title)
-
-            assertThat(screen.title(), equalTo(title))
         }
     }
 })
