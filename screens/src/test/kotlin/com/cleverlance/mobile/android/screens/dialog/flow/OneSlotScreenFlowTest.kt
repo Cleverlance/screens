@@ -3,46 +3,98 @@ package com.cleverlance.mobile.android.screens.dialog.flow
 import com.cleverlance.mobile.android.screens.dialog.DialogResultCallback
 import com.cleverlance.mobile.android.screens.dialog.android.DialogScreen
 import com.cleverlance.mobile.android.screens.dialog.android.ScreenDispatcher
+import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
-import org.junit.Before
-import org.junit.Test
+import com.nhaarman.mockito_kotlin.reset
+import com.nhaarman.mockito_kotlin.whenever
+import io.reactivex.disposables.Disposable
+import org.jetbrains.spek.api.SubjectSpek
+import org.jetbrains.spek.api.dsl.it
+import org.junit.platform.runner.JUnitPlatform
+import org.junit.runner.RunWith
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 
-class OneSlotScreenFlowTest {
-    lateinit var dialogResultCallback: DialogResultCallback<*>
-    lateinit var dialogScreenFlow: OneSlotScreenFlow<DialogScreen>
+@RunWith(JUnitPlatform::class)
+class OneSlotScreenFlowTest : SubjectSpek<OneSlotScreenFlow<DialogScreen>>({
+    val dialogResultCallback: DialogResultCallback<*> = mock()
 
-    @Before
-    fun setUp() {
-        dialogResultCallback = mock()
-        dialogScreenFlow = OneSlotScreenFlow<DialogScreen>()
+    subject {
+        reset(dialogResultCallback)
+        OneSlotScreenFlow<DialogScreen>()
     }
 
-    @Test
-    fun testDialogViewVisibilitySwitching() {
-        val dialogScreenDispatcher1 = mock<ScreenDispatcher<DialogScreen>>()
-        val subscription1 = dialogScreenFlow.subscribe(dialogScreenDispatcher1)
-        verify<ScreenDispatcher<DialogScreen>>(dialogScreenDispatcher1).hide()
+    it("show dialog view when dialog screen set") {
+        val dismissView = mock<Disposable>()
+        val dispatcher = mock<ScreenDispatcher<DialogScreen>> {
+            whenever(it.show(any())).thenReturn(dismissView)
+        }
+        subject.subscribe(dispatcher)
 
         val screen = mock(DialogScreen::class.java)
-        dialogScreenFlow.show(screen, dialogResultCallback)
+        subject.show(screen, dialogResultCallback)
+
+        verify<ScreenDispatcher<DialogScreen>>(dispatcher).show(screen)
+    }
+
+    it("hide dialog view when dialog screen dismissed") {
+        val dismissView = mock<Disposable>()
+        val dispatcher = mock<ScreenDispatcher<DialogScreen>> {
+            whenever(it.show(any())).thenReturn(dismissView)
+        }
+        subject.subscribe(dispatcher)
+
+        val screen = mock(DialogScreen::class.java)
+        val dismissScreen = subject.show(screen, dialogResultCallback)
+
+        dismissScreen.dispose()
+
+        verify(dismissView).dispose()
+    }
+
+    it("dispatcher should hide screen on dispatcher unsubscribe") {
+        val dismissScreenView = mock<Disposable>()
+        val dispatcher = mock<ScreenDispatcher<DialogScreen>> {
+            whenever(it.show(any())).thenReturn(dismissScreenView)
+        }
+
+        val unsubscribeDispatcher = subject.subscribe(dispatcher)
+
+        subject.show(mock(), mock())
+
+        unsubscribeDispatcher.dispose()
+
+        verify(dismissScreenView).dispose()
+    }
+
+    it("dialog view visibility switching") {
+        val dismissScreenView1 = mock<Disposable>()
+        val dialogScreenDispatcher1 = mock<ScreenDispatcher<DialogScreen>> {
+            whenever(it.show(any())).thenReturn(dismissScreenView1)
+        }
+        val subscription1 = subject.subscribe(dialogScreenDispatcher1)
+
+        val screen = mock(DialogScreen::class.java)
+        subject.show(screen, dialogResultCallback)
 
         verify<ScreenDispatcher<DialogScreen>>(dialogScreenDispatcher1).show(screen)
 
         // unbind one view and attach new one e.g. screen rotation
         subscription1.dispose()
+        verify(dismissScreenView1).dispose()
 
-        val dialogScreenDispatcher2 = mock<ScreenDispatcher<DialogScreen>>()
+        val dismissScreenView2 = mock<Disposable>()
+        val dialogScreenDispatcher2 = mock<ScreenDispatcher<DialogScreen>> {
+            whenever(it.show(any())).thenReturn(dismissScreenView2)
+        }
 
-        val subscription2 = dialogScreenFlow.subscribe(dialogScreenDispatcher2)
+        val subscription2 = subject.subscribe(dialogScreenDispatcher2)
         verify<ScreenDispatcher<DialogScreen>>(dialogScreenDispatcher2).show(screen)
 
-        dialogScreenFlow.hide(screen)
+        subject.hide(screen)
 
-        verify<ScreenDispatcher<DialogScreen>>(dialogScreenDispatcher2).hide()
+        verify(dismissScreenView2).dispose()
 
         subscription2.dispose()
     }
-
-}
+})

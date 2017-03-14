@@ -6,7 +6,7 @@ import io.reactivex.disposables.Disposables
 
 /**
  * One screen can be shown at a time. No stacking support.
- * @param <ScreenType> screen type
+ * @param ScreenType screen type
  */
 class OneSlotScreenFlow<ScreenType> : BaseSlotScreenFlow<ScreenType>() {
     private var dialogResultCallback: DialogResultCallback<*>? = null

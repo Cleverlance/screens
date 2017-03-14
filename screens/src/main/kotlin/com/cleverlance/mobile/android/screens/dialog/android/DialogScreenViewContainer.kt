@@ -6,22 +6,13 @@ import io.reactivex.disposables.Disposable
 
 /** Creates dialogView view based on provided screen and shows it  */
 class DialogScreenViewContainer private constructor(private val activity: Activity) : ScreenDispatcher<DialogScreen> {
-    private var dismissDialog: Disposable? = null
-
+    /**
+     * Shows non-persistent dialog view
+     * @return disposable that will hide the dialog view
+     */
     @MainThread
-    override fun show(screen: DialogScreen) {
-        check(dismissDialog == null) { "Previous dialog has not been dismissed yet: $dismissDialog" }
-
-        val dialogView = screen.createDialogScreenView(activity)
-        dismissDialog = dialogView.show()
-    }
-
-    @MainThread
-    override fun hide() {
-        if (dismissDialog != null) {
-            dismissDialog!!.dispose()
-        }
-        dismissDialog = null
+    override fun show(screen: DialogScreen): Disposable {
+        return screen.createDialogScreenView(activity).show()
     }
 
     companion object {
