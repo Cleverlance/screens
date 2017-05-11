@@ -1,10 +1,10 @@
 buildscript {
-    ext.kotlinVersion = '1.0.6'
+    ext.kotlinVersion = '1.1.1'
     repositories {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.android.tools.build:gradle:2.3.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
     }
 }
@@ -20,15 +20,15 @@ task clean(type: Delete) {
 }
 
 ext {
-    projectBuildToolsVersion = '23.0.3'
+    projectBuildToolsVersion = '25.0.0'
     projectCompileSdkVersion = 25
     projectMinSdkVersion = 9
     projectTargetSdkVersion = 25
 
-    androidSupportVersion = '25.1.0'
-    ankoVersion = '0.9'
-    daggerVersion = '2.8'
-    spekVersion = '1.1.0-beta2'
+    androidSupportVersion = '25.3.1'
+    ankoVersion = '0.10.0-beta-2'
+    daggerVersion = '2.10'
+    spekVersion = '1.1.0'
 
     // Core libs
     supportAppCompat = "com.android.support:appcompat-v7:$androidSupportVersion"
@@ -44,14 +44,14 @@ ext {
     daggerCompiler = "com.google.dagger:dagger-compiler:$daggerVersion"
     javaxAnnotation = 'javax.annotation:jsr250-api:1.0'
     // Rx libs
-    rxJava = 'io.reactivex.rxjava2:rxjava:2.0.2'
+    rxJava = 'io.reactivex.rxjava2:rxjava:2.0.9'
     rxAndroid = 'io.reactivex.rxjava2:rxandroid:2.0.1'
     rxRelay = 'com.jakewharton.rxrelay2:rxrelay:2.0.0'
     // Testing libs
     spekApi = "org.jetbrains.spek:spek-api:$spekVersion"
     spekJUnitPlatformEngine = "org.jetbrains.spek:spek-junit-platform-engine:$spekVersion"
     jUnitPlatformRunner = 'org.junit.platform:junit-platform-runner:1.0.0-M3'
-    mockitoKotlin = 'com.nhaarman:mockito-kotlin:1.0.0'
-    hamkrest = 'com.natpryce:hamkrest:1.2.3.0'
+    mockitoKotlin = 'com.nhaarman:mockito-kotlin:1.4.0'
+    hamkrest = 'com.natpryce:hamkrest:1.4.0.0'
     androidSupportTestRunner = 'com.android.support.test:runner:0.5'
 }
