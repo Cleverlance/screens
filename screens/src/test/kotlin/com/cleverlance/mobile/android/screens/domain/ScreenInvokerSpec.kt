@@ -6,9 +6,9 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import com.nhaarman.mockito_kotlin.*
 import io.reactivex.disposables.Disposable
-import org.jetbrains.spek.api.SubjectSpek
 import org.jetbrains.spek.api.dsl.context
 import org.jetbrains.spek.api.dsl.it
+import org.jetbrains.spek.subject.SubjectSpek
 import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
 

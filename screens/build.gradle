@@ -34,6 +34,7 @@ dependencies {
     testCompile kotlinTest
     testCompile spekApi
     testCompile spekJUnitPlatformEngine
+    testCompile spekSubjectExtension
     testCompile jUnitPlatformRunner
     testCompile mockitoKotlin
     testCompile hamkrest

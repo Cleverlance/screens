@@ -5,10 +5,10 @@ import com.cleverlance.mobile.android.screens.domain.Screen
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.never
-import org.jetbrains.spek.api.SubjectSpek
 import org.jetbrains.spek.api.dsl.context
 import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
+import org.jetbrains.spek.subject.SubjectSpek
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.platform.runner.JUnitPlatform
