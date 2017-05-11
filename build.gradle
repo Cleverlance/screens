@@ -50,6 +50,7 @@ ext {
     // Testing libs
     spekApi = "org.jetbrains.spek:spek-api:$spekVersion"
     spekJUnitPlatformEngine = "org.jetbrains.spek:spek-junit-platform-engine:$spekVersion"
+    spekSubjectExtension = "org.jetbrains.spek:spek-subject-extension:$spekVersion"
     jUnitPlatformRunner = 'org.junit.platform:junit-platform-runner:1.0.0-M3'
     mockitoKotlin = 'com.nhaarman:mockito-kotlin:1.4.0'
     hamkrest = 'com.natpryce:hamkrest:1.4.0.0'

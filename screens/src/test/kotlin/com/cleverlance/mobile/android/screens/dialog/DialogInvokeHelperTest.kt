@@ -129,7 +129,7 @@ class DialogInvokeHelperTest {
     @Throws(Exception::class)
     fun testShouldDeliverFirstErrorWhenErrorAndResultDelivered() {
         dialogInvokeHelper.forResult(screenFactory).subscribe(
-                Consumer<TestResult> { s -> fail("success result not expected") },
+                Consumer<TestResult> { _ -> fail("success result not expected") },
                 onError
         )
 
@@ -202,7 +202,7 @@ class DialogInvokeHelperTest {
 
     internal fun showDialogRecursivelyWithSuccess() {
         dialogInvokeHelper.forResult(screenFactory).subscribe(
-                { ok -> showDialogRecursivelyWithSuccess() },
+                { _ -> showDialogRecursivelyWithSuccess() },
                 { error -> throw RuntimeException("Error not expected", error) } // do nothing
         )
     }
@@ -217,7 +217,7 @@ class DialogInvokeHelperTest {
 
     internal fun showDialogRecursivelyWithError() {
         dialogInvokeHelper.forResult(screenFactory).subscribe(
-                { ok -> throw IllegalStateException("Ok not expected") }, // do nothing             ,
+                { _ -> throw IllegalStateException("Ok not expected") }, // do nothing             ,
                 { error ->
                     assertThat(error, CoreMatchers.instanceOf(TestExpectedException::class.java))
                     showDialogRecursivelyWithError()
