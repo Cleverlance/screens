@@ -22,7 +22,7 @@ dependencies {
     // Core libs
     compile supportAppCompat
     compile kotlinStdLib
-    compile ankoCommon
+    compile ankoCommons
     compile ankoSdk21
     // DI libs
     compile dagger
