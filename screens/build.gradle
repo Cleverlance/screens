@@ -26,7 +26,7 @@ dependencies {
     compile ankoCommons
     compile ankoSdk21
     // DI libs
-    compile dagger
+    compile javaxInject
     // Rx libs
     compile rxJava
     compile rxAndroid
