@@ -19,13 +19,15 @@ android {
 }
 
 dependencies {
+    // Optional compile only dependencies
+    provided supportCoreUi
+    provided ankoCommons
+    provided ankoSdk15
+
     // Core libs
-    compile supportAppCompat
     compile kotlinStdLib
-    compile ankoCommons
-    compile ankoSdk21
     // DI libs
-    compile dagger
+    compile javaxInject
     // Rx libs
     compile rxJava
     compile rxAndroid

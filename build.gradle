@@ -33,18 +33,20 @@ ext {
     spekVersion = '1.1.2'
 
     // Core libs
+    supportCoreUi = "com.android.support:support-core-ui:$androidSupportVersion"
     supportAppCompat = "com.android.support:appcompat-v7:$androidSupportVersion"
     supportDesign = "com.android.support:design:$androidSupportVersion"
     kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
     kotlinTest = "org.jetbrains.kotlin:kotlin-test:$kotlinVersion"
     ankoCommons = "org.jetbrains.anko:anko-commons:$ankoVersion"
+    ankoSdk15 = "org.jetbrains.anko:anko-sdk15:$ankoVersion"
     ankoSdk21 = "org.jetbrains.anko:anko-sdk21:$ankoVersion"
     ankoAppCompat = "org.jetbrains.anko:anko-appcompat-v7:$ankoVersion"
     ankoDesign = "org.jetbrains.anko:anko-design:$ankoVersion"
     // DI libs
     dagger = "com.google.dagger:dagger:$daggerVersion"
     daggerCompiler = "com.google.dagger:dagger-compiler:$daggerVersion"
-    javaxAnnotation = 'javax.annotation:jsr250-api:1.0'
+    javaxInject = 'javax.inject:javax.inject:1@jar'
     // Rx libs
     rxJava = 'io.reactivex.rxjava2:rxjava:2.0.9'
     rxAndroid = 'io.reactivex.rxjava2:rxandroid:2.0.1'
