@@ -39,6 +39,7 @@ ext {
     kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
     kotlinTest = "org.jetbrains.kotlin:kotlin-test:$kotlinVersion"
     ankoCommons = "org.jetbrains.anko:anko-commons:$ankoVersion"
+    ankoSdk15 = "org.jetbrains.anko:anko-sdk15:$ankoVersion"
     ankoSdk21 = "org.jetbrains.anko:anko-sdk21:$ankoVersion"
     ankoAppCompat = "org.jetbrains.anko:anko-appcompat-v7:$ankoVersion"
     ankoDesign = "org.jetbrains.anko:anko-design:$ankoVersion"

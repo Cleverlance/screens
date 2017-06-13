@@ -19,12 +19,13 @@ android {
 }
 
 dependencies {
-    provided supportCoreUi // Compile only dependency for *optional* PagerAdapter support.
+    // Optional compile only dependencies
+    provided supportCoreUi
+    provided ankoCommons
+    provided ankoSdk15
 
     // Core libs
     compile kotlinStdLib
-    compile ankoCommons
-    compile ankoSdk21
     // DI libs
     compile javaxInject
     // Rx libs
