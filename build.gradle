@@ -33,6 +33,7 @@ ext {
     spekVersion = '1.1.2'
 
     // Core libs
+    supportCoreUi = "com.android.support:support-core-ui:$androidSupportVersion"
     supportAppCompat = "com.android.support:appcompat-v7:$androidSupportVersion"
     supportDesign = "com.android.support:design:$androidSupportVersion"
     kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"

@@ -19,8 +19,9 @@ android {
 }
 
 dependencies {
+    provided supportCoreUi // Compile only dependency for *optional* PagerAdapter support.
+
     // Core libs
-    compile supportAppCompat
     compile kotlinStdLib
     compile ankoCommons
     compile ankoSdk21
