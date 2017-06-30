@@ -9,6 +9,7 @@ internal class ScreenContainer(private val container: ViewGroup, private val act
 
     internal fun setScreen(screen: Screen) {
         removeCurrentScreen()
+        container.removeAllViews()
 
         screen.createView().run {
             activity = this@ScreenContainer.activity
@@ -21,6 +22,8 @@ internal class ScreenContainer(private val container: ViewGroup, private val act
     internal fun removeCurrentScreen() {
         presenterBindings.dispose()
 
-        container.removeAllViews()
+        //When in dispatchDetachedFromWindow() removeAllViews() would cause second dispatchDetachedFromWindow() invocation for child Views
+        //Caused by: java.lang.NullPointerException: Attempt to invoke virtual method 'void android.support.v7.widget.GapWorker.remove(android.support.v7.widget.RecyclerView)' on a null object reference
+        //at android.support.v7.widget.RecyclerView.onDetachedFromWindow(RecyclerView.java:2534)
     }
 }
