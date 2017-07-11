@@ -5,7 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.cleverlance.mobile.android.screens.domain.PagerConfiguration
 import com.cleverlance.mobile.android.screens.domain.Screen
-import org.jetbrains.anko.*
+import org.jetbrains.anko.AnkoComponent
+import org.jetbrains.anko.AnkoContext
+import org.jetbrains.anko.matchParent
+import org.jetbrains.anko.verticalLayout
 
 open class BasePagerAdapter(val pagerConfig: PagerConfiguration) : PagerAdapter() {
 
@@ -25,9 +28,9 @@ open class BasePagerAdapter(val pagerConfig: PagerConfiguration) : PagerAdapter(
             object : AnkoComponent<ViewGroup> {
                 override fun createView(ui: AnkoContext<ViewGroup>) = with(ui) {
                     verticalLayout {
-                        lparams(width = matchParent, height = wrapContent)
+                        lparams(width = matchParent, height = matchParent)
 
-                        screenContainerView().lparams(width = matchParent, height = wrapContent)
+                        screenContainerView().lparams(width = matchParent, height = matchParent)
                                 .apply { setScreen(screen) }
                     }
                 }
