@@ -1,4 +1,4 @@
-package com.cleverlance.mobile.android.screens.list.view
+package com.cleverlance.mobile.android.screens.list
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
