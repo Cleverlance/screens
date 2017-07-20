@@ -21,6 +21,7 @@ android {
 dependencies {
     // Optional compile only dependencies
     provided supportCoreUi
+    provided supportDesign
     provided ankoCommons
     provided ankoSdk15
 
