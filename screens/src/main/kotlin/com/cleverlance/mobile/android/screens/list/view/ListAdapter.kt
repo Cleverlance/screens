@@ -1,33 +1,30 @@
 package com.cleverlance.mobile.android.screens.list.view
 
 import android.support.v7.widget.RecyclerView
-import com.cleverlance.mobile.android.screens.list.presenter.ListPresenterHolder
+import android.view.ViewGroup
 
 abstract class ListAdapter<
-        D,
-        PH : ListPresenterHolder<D>,
-        LI : ListItemViewHolder<D, ListItemView<D>>>(
-        private val presenterHolder: PH
-) : RecyclerView.Adapter<LI>() {
-
-    var items: List<D> = listOf()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
-
-    override fun onBindViewHolder(holder: LI, position: Int) {
-        holder.listItem.setPresenter(presenterHolder.presenters[position])
+        V : ListItemView<P>,
+        P : Any> : RecyclerView.Adapter<ListItemViewHolder<V, P>>() {
+    override fun onCreateViewHolder(container: ViewGroup, viewType: Int): ListItemViewHolder<V, P> {
+        val itemView = createView(viewType)
+        return ListItemViewHolder(itemView.createView(container), itemView)
     }
 
-    override fun getItemCount(): Int = items.size
+    abstract fun createView(viewType: Int): V
 
-    override fun onViewAttachedToWindow(holder: LI) {
+    override fun onBindViewHolder(holder: ListItemViewHolder<V, P>, position: Int) {
+        holder.listItem.presenter = getPresenter(position)
+    }
+
+    abstract fun getPresenter(position: Int): P
+
+    override fun onViewAttachedToWindow(holder: ListItemViewHolder<V, P>) {
         super.onViewAttachedToWindow(holder)
         holder.bind()
     }
 
-    override fun onViewDetachedFromWindow(holder: LI) {
+    override fun onViewDetachedFromWindow(holder: ListItemViewHolder<V, P>) {
         holder.unbind()
         super.onViewDetachedFromWindow(holder)
     }

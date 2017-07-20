@@ -2,15 +2,17 @@ package com.cleverlance.mobile.android.screens.list.view
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposables
 
-class ListItemViewHolder<D, out LI : ListItemView<D>>(
-        val view: View,
-        val listItem: LI
+class ListItemViewHolder<out V : ListItemView<P>, P : Any>(
+        view: View,
+        val listItem: V
 ) : RecyclerView.ViewHolder(view) {
-    private val onBindSubscriptions = CompositeDisposable()
+    private var bindings = Disposables.disposed()
 
-    fun bind() = onBindSubscriptions.addAll(listItem.itemSubscription)
+    internal fun bind() {
+        bindings = listItem.bindPresenter(listItem.presenter)
+    }
 
-    fun unbind() = onBindSubscriptions.dispose()
+    internal fun unbind() = bindings.dispose()
 }

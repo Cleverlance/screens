@@ -1,19 +1,13 @@
 package com.cleverlance.mobile.android.screens.list.view
 
-import android.content.Context
 import android.view.View
-import com.cleverlance.mobile.android.screens.list.presenter.ListItemPresenter
-import io.reactivex.disposables.CompositeDisposable
+import android.view.ViewGroup
 import io.reactivex.disposables.Disposable
 
-abstract class ListItemView<D> {
-    val itemSubscription = CompositeDisposable()
+abstract class ListItemView<P : Any> {
+    lateinit var presenter: P
 
-    fun holder(context: Context): ListItemViewHolder<D, ListItemView<D>> = ListItemViewHolder(createView(context), this)
+    abstract fun createView(container: ViewGroup): View
 
-    fun setPresenter(presenter: ListItemPresenter<D>) = itemSubscription.addAll(bindPresenter(presenter))
-
-    protected abstract fun bindPresenter(presenter: ListItemPresenter<D>): Disposable
-
-    protected abstract fun createView(context: Context): View
+    abstract fun bindPresenter(presenter: P): Disposable
 }
