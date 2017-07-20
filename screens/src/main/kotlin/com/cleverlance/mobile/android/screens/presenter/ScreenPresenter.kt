@@ -8,11 +8,8 @@ import com.jakewharton.rxrelay2.BehaviorRelay
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.disposables.Disposables
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class ScreenPresenter @Inject constructor() {
+class ScreenPresenter {
     private val screen: BehaviorRelay<BaseScreen> = BehaviorRelay.createDefault(NoScreen())
 
     fun back(activity: Activity): Boolean = getScreen().onBackPressed()
