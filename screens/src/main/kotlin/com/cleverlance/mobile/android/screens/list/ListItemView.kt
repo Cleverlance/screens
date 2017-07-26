@@ -9,5 +9,5 @@ abstract class ListItemView<P : Any> {
 
     abstract fun createView(container: ViewGroup): View
 
-    abstract fun bindPresenter(item: P): Disposable
+    abstract fun bindPresenter(presenter: P): Disposable
 }
