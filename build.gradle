@@ -20,39 +20,3 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-
-ext {
-    projectBuildToolsVersion = '25.0.3'
-    projectCompileSdkVersion = 25
-    projectMinSdkVersion = 9
-    projectTargetSdkVersion = 25
-
-    androidSupportVersion = '25.3.1'
-    ankoVersion = '0.10.1'
-    daggerVersion = '2.10'
-    spekVersion = '1.1.2'
-
-    // Core libs
-    supportCoreUi = "com.android.support:support-core-ui:$androidSupportVersion"
-    supportAppCompat = "com.android.support:appcompat-v7:$androidSupportVersion"
-    supportDesign = "com.android.support:design:$androidSupportVersion"
-    kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
-    kotlinTest = "org.jetbrains.kotlin:kotlin-test:$kotlinVersion"
-    ankoCommons = "org.jetbrains.anko:anko-commons:$ankoVersion"
-    ankoSdk15 = "org.jetbrains.anko:anko-sdk15:$ankoVersion"
-    ankoSdk21 = "org.jetbrains.anko:anko-sdk21:$ankoVersion"
-    ankoAppCompat = "org.jetbrains.anko:anko-appcompat-v7:$ankoVersion"
-    ankoDesign = "org.jetbrains.anko:anko-design:$ankoVersion"
-    // Rx libs
-    rxJava = 'io.reactivex.rxjava2:rxjava:2.0.9'
-    rxAndroid = 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    rxRelay = 'com.jakewharton.rxrelay2:rxrelay:2.0.0'
-    // Testing libs
-    spekApi = "org.jetbrains.spek:spek-api:$spekVersion"
-    spekJUnitPlatformEngine = "org.jetbrains.spek:spek-junit-platform-engine:$spekVersion"
-    spekSubjectExtension = "org.jetbrains.spek:spek-subject-extension:$spekVersion"
-    jUnitPlatformRunner = 'org.junit.platform:junit-platform-runner:1.0.0-M4'
-    mockitoKotlin = 'com.nhaarman:mockito-kotlin:1.4.0'
-    hamkrest = 'com.natpryce:hamkrest:1.4.0.0'
-    androidSupportTestRunner = 'com.android.support.test:runner:0.5'
-}
