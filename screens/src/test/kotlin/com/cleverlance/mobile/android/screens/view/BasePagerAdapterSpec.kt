@@ -1,7 +1,7 @@
 package com.cleverlance.mobile.android.screens.view
 
 import android.view.View
-import com.cleverlance.mobile.android.screens.domain.PagerConfiguration
+import com.cleverlance.mobile.android.screens.domain.Screen
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import com.nhaarman.mockito_kotlin.mock
@@ -13,19 +13,16 @@ import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
 
 @RunWith(JUnitPlatform::class)
-internal class BasePagerAdapterSpec : SubjectSpek<BasePagerAdapter>({
+internal class BasePagerAdapterSpec : SubjectSpek<ScreenPagerAdapter>({
     subject {
-        val pageConfig = mock<PagerConfiguration>()
-        object : BasePagerAdapter(pageConfig) {}
+        object : ScreenPagerAdapter() {
+            override fun getScreen(position: Int): Screen = mock()
+
+            override fun getCount(): Int = 1
+        }
     }
 
     context("is view from object") {
-        given("nulls") {
-            it("should get true") {
-                assertThat(subject.isViewFromObject(null, null), equalTo(true))
-            }
-        }
-
         given("valid objects") {
             it("should get true") {
                 val view = mock<View>()
