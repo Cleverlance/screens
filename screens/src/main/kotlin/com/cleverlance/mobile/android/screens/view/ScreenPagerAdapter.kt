@@ -24,14 +24,5 @@ abstract class ScreenPagerAdapter : PagerAdapter() {
     override fun isViewFromObject(view: View, any: Any) = view == any
 
     private fun createScreenContainer(container: ViewGroup, screen: Screen) =
-            object : AnkoComponent<ViewGroup> {
-                override fun createView(ui: AnkoContext<ViewGroup>) = with(ui) {
-                    verticalLayout {
-                        lparams(width = matchParent, height = matchParent)
-
-                        screenContainerView().lparams(width = matchParent, height = matchParent)
-                                .apply { setScreen(screen) }
-                    }
-                }
-            }.createView(AnkoContext.create(container.context, container))
+            ScreenContainerView(container.context, null).apply { setScreen(screen) }
 }
