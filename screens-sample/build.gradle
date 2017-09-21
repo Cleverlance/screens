@@ -1,9 +1,17 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
+ext {
+    projectBuildToolsVersion = '25.0.3'
+    projectCompileSdkVersion = 25
+    projectMinSdkVersion = 9
+    projectTargetSdkVersion = 25
+}
+
 android {
     compileSdkVersion projectCompileSdkVersion
     buildToolsVersion projectBuildToolsVersion
+
     defaultConfig {
         applicationId "com.cleverlance.screens.sample"
         minSdkVersion projectMinSdkVersion
