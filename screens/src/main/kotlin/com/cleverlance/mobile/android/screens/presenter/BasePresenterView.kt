@@ -9,7 +9,7 @@ abstract class BasePresenterView {
     lateinit var activity: Activity
     lateinit var rootView: View
 
-    internal abstract fun createView(container: ViewGroup): View
+    abstract fun createView(container: ViewGroup): View
 
     abstract fun bindPresenter(): Disposable
 }
