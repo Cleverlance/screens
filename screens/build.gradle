@@ -20,23 +20,24 @@ android {
 
 dependencies {
     // Optional compile only dependencies
-    provided supportCoreUi
-    provided supportDesign
-    provided ankoCommons
-    provided ankoSdk15
+    compileOnly supportCoreUi
+    compileOnly supportDesign
+    testImplementation supportDesign
+    compileOnly ankoCommons
+    compileOnly ankoSdk15
 
     // Core libs
-    compile kotlinStdLib
+    implementation kotlinStdLib
     // Rx libs
-    compile rxJava
-    compile rxAndroid
-    compile rxRelay
+    implementation rxJava
+    implementation rxAndroid
+    implementation rxRelay
 
-    testCompile kotlinTest
-    testCompile spekApi
-    testCompile spekJUnitPlatformEngine
-    testCompile spekSubjectExtension
-    testCompile jUnitPlatformRunner
-    testCompile mockitoKotlin
-    testCompile hamkrest
+    testImplementation kotlinTest
+    testImplementation spekApi
+    testImplementation spekJUnitPlatformEngine
+    testImplementation spekSubjectExtension
+    testImplementation jUnitPlatformRunner
+    testImplementation mockitoKotlin
+    testImplementation hamkrest
 }
