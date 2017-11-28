@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion projectCompileSdkVersion
-    buildToolsVersion projectBuildToolsVersion
+
     defaultConfig {
         applicationId "com.cleverlance.screens.sample"
         minSdkVersion projectMinSdkVersion
