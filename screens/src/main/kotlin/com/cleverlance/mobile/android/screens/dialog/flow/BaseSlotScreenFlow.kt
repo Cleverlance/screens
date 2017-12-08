@@ -8,7 +8,6 @@ import io.reactivex.disposables.Disposable
 
 abstract class BaseSlotScreenFlow<ScreenType> : ScreenFlow<ScreenType> {
     protected val NO_SCREEN = Any() as ScreenType
-    /** Using null, when no presenter is bound.  */
     private val currentScreenSubject = BehaviorRelay.createDefault(NO_SCREEN)
 
     protected var currentScreen: ScreenType
