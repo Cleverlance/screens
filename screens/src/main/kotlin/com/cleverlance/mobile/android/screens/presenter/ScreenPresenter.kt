@@ -3,7 +3,6 @@ package com.cleverlance.mobile.android.screens.presenter
 import android.app.Activity
 import com.cleverlance.mobile.android.screens.domain.BaseScreen
 import com.cleverlance.mobile.android.screens.domain.NoScreen
-import com.cleverlance.mobile.android.screens.domain.ScreenFactory
 import com.jakewharton.rxrelay2.BehaviorRelay
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
@@ -21,10 +20,6 @@ class ScreenPresenter {
             /* private */ fun getScreen(): BaseScreen = screen.value
 
     fun setScreen(screen: BaseScreen) = this.screen.accept(screen)
-
-    fun ensureFirstScreen(invoker: ScreenFactory) {
-        if (screen.value is NoScreen) setScreen(invoker.createScreen())
-    }
 
     fun onDisposeShowCurrent(): Disposable {
         val previousScreen = getScreen() // capture current screen

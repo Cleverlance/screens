@@ -1,12 +1,9 @@
 package com.cleverlance.mobile.android.screens.presenter
 
 import com.cleverlance.mobile.android.screens.domain.BaseScreen
-import com.cleverlance.mobile.android.screens.domain.ScreenFactory
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.times
-import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import org.jetbrains.spek.api.dsl.context
 import org.jetbrains.spek.api.dsl.it
@@ -67,21 +64,6 @@ internal class ScreenPresenterSpec : SubjectSpek<ScreenPresenter>({
             }
             subject.setScreen(screen)
             assertThat(subject.back(mock()), equalTo(false))
-        }
-    }
-
-    context("ensure first screen") {
-        it("should create exactly one init screen") {
-            val screen = mock<BaseScreen>()
-            val screenFactory = mock<ScreenFactory> {
-                whenever(it.createScreen()).thenReturn(screen)
-            }
-
-            subject.ensureFirstScreen(screenFactory)
-            subject.ensureFirstScreen(screenFactory)
-
-            verify(screenFactory, times(1)).createScreen()
-            subject.screenObservable().test().assertValue(screen)
         }
     }
 })

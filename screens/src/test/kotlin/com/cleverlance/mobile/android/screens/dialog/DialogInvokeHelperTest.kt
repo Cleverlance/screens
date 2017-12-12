@@ -27,11 +27,10 @@ class DialogInvokeHelperTest {
     @Captor private lateinit var errorCaptor: ArgumentCaptor<Throwable>
     @Mock private lateinit var dismissScreen: Disposable
     // tests states
-    private var dialogResultCallback: DialogResultCallback<TestResult>? = null
-    private var lastCreatedDialogScreen: AnyScreen? = null
+    private lateinit var dialogResultCallback: DialogResultCallback<TestResult>
+    private lateinit var lastCreatedDialogScreen: AnyScreen
 
     @Before
-    @Throws(Exception::class)
     fun setUp() {
         MockitoAnnotations.initMocks(this)
         testResultSubscriber = spy(TestObserver())
@@ -40,32 +39,30 @@ class DialogInvokeHelperTest {
             override val screenFlow: ScreenFlow<AnyScreen> get() = this@DialogInvokeHelperTest.screenFlow
         }
         screenFactory = createScreenFactory()
-        whenever(screenFlow.show(any(), any())).thenReturn(dismissScreen)
+        whenever(screenFlow.show(any())).thenReturn(dismissScreen)
     }
 
     @Test
-    @Throws(Exception::class)
     fun testShouldReturnResultOnConfirm() {
-        dialogInvokeHelper.forResult(createScreenFactory()).subscribe(testResultSubscriber)
+        dialogInvokeHelper.forResult(screenFactory).subscribe(testResultSubscriber)
         dismissWithResult(anyResult)
 
         testResultSubscriber.assertValue(anyResult)
     }
 
     internal fun createScreenFactory(): ScreenFactory<TestResult, AnyScreen> {
-        return TestScreenFactory()
+        return testScreenFactory
     }
 
     internal fun dismissWithResult(result: TestResult) {
-        dialogResultCallback!!.dismissWithResult(result)
+        dialogResultCallback.dismissWithResult(result)
     }
 
     internal fun dismissWithError(error: Throwable) {
-        dialogResultCallback!!.dismissWithError(error)
+        dialogResultCallback.dismissWithError(error)
     }
 
     @Test
-    @Throws(Exception::class)
     fun testShouldReturnError() {
         dialogInvokeHelper.forResult(screenFactory).subscribe(testResultSubscriber)
         dismissWithError(anyError)
@@ -73,22 +70,19 @@ class DialogInvokeHelperTest {
         testResultSubscriber.assertError(anyError)
     }
 
-    @Test(expected = NullPointerException::class)
-    @Throws(Exception::class)
+    @Test(expected = UninitializedPropertyAccessException::class)
     fun testShouldThrowExceptionNoResultRequestedButDelivered() {
         // callback not registered
         dismissWithResult(anyResult)
     }
 
-    @Test(expected = NullPointerException::class)
-    @Throws(Exception::class)
+    @Test(expected = UninitializedPropertyAccessException::class)
     fun testShouldThrowExceptionNoResultRequestedButDeliveredError() {
         // callback not registered
         dismissWithError(anyError)
     }
 
     @Test
-    @Throws(Exception::class)
     fun testShouldDeliverFirstResultWhenMultipleResultsDelivered() {
         dialogInvokeHelper.forResult(screenFactory).subscribe(onSuccess)
 
@@ -99,7 +93,6 @@ class DialogInvokeHelperTest {
     }
 
     @Test
-    @Throws(Exception::class)
     fun testShouldDeliverFirstErrorWhenMultipleErrorsDelivered() {
         dialogInvokeHelper.forResult(screenFactory).subscribe(
                 Consumer<TestResult> { fail("success result not expected") },
@@ -114,7 +107,6 @@ class DialogInvokeHelperTest {
     }
 
     @Test
-    @Throws(Exception::class)
     fun testShouldDeliverFirstResultWhenResultAndErrorDelivered() {
         dialogInvokeHelper.forResult(screenFactory).subscribe(onSuccess, onError)
 
@@ -126,7 +118,6 @@ class DialogInvokeHelperTest {
     }
 
     @Test
-    @Throws(Exception::class)
     fun testShouldDeliverFirstErrorWhenErrorAndResultDelivered() {
         dialogInvokeHelper.forResult(screenFactory).subscribe(
                 Consumer<TestResult> { _ -> fail("success result not expected") },
@@ -141,19 +132,17 @@ class DialogInvokeHelperTest {
     }
 
     @Test
-    @Throws(Exception::class)
     fun testDialogShouldNotShowUntilSubscribedSuccess() {
         dialogInvokeHelper.forResult(screenFactory) // do not subscribe
 
-        verify<ScreenFlow<AnyScreen>>(screenFlow, never()).show(any(), any())
+        verify<ScreenFlow<AnyScreen>>(screenFlow, never()).show(any())
     }
 
     @Test
-    @Throws(Exception::class)
     fun testDialogViewVisibilitySwitchingOnSuccess() {
         dialogInvokeHelper.forResult(screenFactory).subscribe(testResultSubscriber)
 
-        verify<ScreenFlow<AnyScreen>>(screenFlow).show(lastCreatedDialogScreen!!, dialogResultCallback!!)
+        verify<ScreenFlow<AnyScreen>>(screenFlow).show(lastCreatedDialogScreen)
 
         dismissWithResult(anyResult)
 
@@ -166,11 +155,10 @@ class DialogInvokeHelperTest {
     }
 
     @Test
-    @Throws(Exception::class)
     fun testDialogViewVisibilitySwitchingOnError() {
         dialogInvokeHelper.forResult(screenFactory).subscribe(testResultSubscriber)
 
-        verify<ScreenFlow<AnyScreen>>(screenFlow).show(lastCreatedDialogScreen!!, dialogResultCallback!!)
+        verify<ScreenFlow<AnyScreen>>(screenFlow).show(lastCreatedDialogScreen)
 
         dismissWithError(anyError)
 
@@ -181,11 +169,10 @@ class DialogInvokeHelperTest {
     }
 
     @Test
-    @Throws(Exception::class)
     fun testUnsubscribeHidesDialogScreen() {
         val subscription = dialogInvokeHelper.forResult(screenFactory).subscribeWith(testResultSubscriber)
 
-        verify<ScreenFlow<AnyScreen>>(screenFlow).show(lastCreatedDialogScreen!!, dialogResultCallback!!)
+        verify<ScreenFlow<AnyScreen>>(screenFlow).show(lastCreatedDialogScreen)
 
         subscription.dispose()
 
@@ -193,7 +180,6 @@ class DialogInvokeHelperTest {
     }
 
     @Test
-    @Throws(Exception::class)
     fun testShowDialogAgainInCallbackWithSuccess() {
         showDialogRecursivelyWithSuccess()
 
@@ -208,7 +194,6 @@ class DialogInvokeHelperTest {
     }
 
     @Test
-    @Throws(Exception::class)
     fun testShowDialogAgainInCallbackWithError() {
         showDialogRecursivelyWithError()
 
@@ -226,7 +211,6 @@ class DialogInvokeHelperTest {
     }
 
     @Test
-    @Throws(Exception::class)
     fun testForResultShouldSupportSubscribingMultipleTimes() {
         val commonForResult = dialogInvokeHelper.forResult(screenFactory)
 
@@ -240,7 +224,6 @@ class DialogInvokeHelperTest {
     }
 
     @Test
-    @Throws(Exception::class)
     fun testParallelSubscribesAreAllowed() {
         val commonForResult = dialogInvokeHelper.forResult(screenFactory)
 
@@ -250,13 +233,11 @@ class DialogInvokeHelperTest {
 
     internal class AnyScreen
 
-    internal inner class TestScreenFactory : ScreenFactory<TestResult, AnyScreen> {
-        override fun create(dialogResultCallback: DialogResultCallback<TestResult>): AnyScreen {
-            this@DialogInvokeHelperTest.dialogResultCallback = dialogResultCallback
-            val anyScreen = mock(AnyScreen::class.java)
-            lastCreatedDialogScreen = anyScreen
-            return anyScreen
-        }
+    internal val testScreenFactory: ScreenFactory<TestResult, AnyScreen> = { dialogResultCallback ->
+        this@DialogInvokeHelperTest.dialogResultCallback = dialogResultCallback
+        val anyScreen = mock(AnyScreen::class.java)
+        lastCreatedDialogScreen = anyScreen
+        anyScreen
     }
 
     internal data class TestResult(private val label: String)

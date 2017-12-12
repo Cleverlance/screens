@@ -1,6 +1,5 @@
 package com.cleverlance.mobile.android.screens.dialog.flow
 
-import com.cleverlance.mobile.android.screens.dialog.DialogResultCallback
 import com.cleverlance.mobile.android.screens.dialog.ScreenFlow
 import com.cleverlance.mobile.android.screens.dialog.android.ScreenDispatcher
 import com.jakewharton.rxrelay2.BehaviorRelay
@@ -33,7 +32,7 @@ open class StackScreenFlow<ScreenType> : ScreenFlow<ScreenType> {
     }
 
     /** Called from presenter  */
-    override fun show(screen: ScreenType, dialogResultCallback: DialogResultCallback<*>): Disposable {
+    override fun show(screen: ScreenType): Disposable {
         stack.add(screen)
         updateSubject.accept(Unit)
 
