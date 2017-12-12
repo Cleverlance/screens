@@ -32,7 +32,7 @@ class StackScreenFlowTest : SubjectSpek<StackScreenFlow<DialogScreen>>({
         subject.subscribe(dispatcher)
 
         val screen = mock(DialogScreen::class.java)
-        subject.show(screen, dialogResultCallback)
+        subject.show(screen)
 
         verify<ScreenDispatcher<DialogScreen>>(dispatcher).show(screen)
     }
@@ -45,7 +45,7 @@ class StackScreenFlowTest : SubjectSpek<StackScreenFlow<DialogScreen>>({
         subject.subscribe(dispatcher)
 
         val screen = mock(DialogScreen::class.java)
-        val dismissScreen = subject.show(screen, dialogResultCallback)
+        val dismissScreen = subject.show(screen)
 
         dismissScreen.dispose()
 
@@ -60,7 +60,7 @@ class StackScreenFlowTest : SubjectSpek<StackScreenFlow<DialogScreen>>({
 
         val unsubscribeDispatcher = subject.subscribe(dispatcher)
 
-        subject.show(mock(), mock())
+        subject.show(mock())
 
         unsubscribeDispatcher.dispose()
 
@@ -75,7 +75,7 @@ class StackScreenFlowTest : SubjectSpek<StackScreenFlow<DialogScreen>>({
         val subscription1 = subject.subscribe(dialogScreenDispatcher1)
 
         val screen = mock(DialogScreen::class.java)
-        subject.show(screen, dialogResultCallback)
+        subject.show(screen)
 
         verify<ScreenDispatcher<DialogScreen>>(dialogScreenDispatcher1).show(screen)
 
@@ -107,7 +107,7 @@ class StackScreenFlowTest : SubjectSpek<StackScreenFlow<DialogScreen>>({
         val dismissScreen1View = mock<Disposable>()
         whenever(dialogScreenDispatcher.show(screen1)).thenReturn(dismissScreen1View)
 
-        subject.show(screen1, dialogResultCallback)
+        subject.show(screen1)
 
         verify(dialogScreenDispatcher).show(screen1)
 
@@ -115,7 +115,7 @@ class StackScreenFlowTest : SubjectSpek<StackScreenFlow<DialogScreen>>({
         val dismissScreen2View = mock<Disposable>()
         whenever(dialogScreenDispatcher.show(screen2)).thenReturn(dismissScreen2View)
 
-        subject.show(screen2, dialogResultCallback)
+        subject.show(screen2)
 
         verify(dismissScreen1View).dispose()
         verify(dialogScreenDispatcher).show(screen2)

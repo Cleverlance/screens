@@ -12,7 +12,7 @@ open class OneSlotScreenFlow<ScreenType> : BaseSlotScreenFlow<ScreenType>() {
     private var dialogResultCallback: DialogResultCallback<*>? = null
 
     /** Called from presenter  */
-    override fun show(screen: ScreenType, dialogResultCallback: DialogResultCallback<*>): Disposable {
+    override fun show(screen: ScreenType): Disposable {
         val currentScreen = currentScreen
 
         check(NO_SCREEN == currentScreen) { "Already showing dialog screen $currentScreen" }

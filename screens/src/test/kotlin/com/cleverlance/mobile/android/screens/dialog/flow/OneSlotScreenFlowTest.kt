@@ -21,7 +21,7 @@ class OneSlotScreenFlowTest : SubjectSpek<OneSlotScreenFlow<DialogScreen>>({
 
     subject {
         reset(dialogResultCallback)
-        OneSlotScreenFlow<DialogScreen>()
+        OneSlotScreenFlow()
     }
 
     it("show dialog view when dialog screen set") {
@@ -32,7 +32,7 @@ class OneSlotScreenFlowTest : SubjectSpek<OneSlotScreenFlow<DialogScreen>>({
         subject.subscribe(dispatcher)
 
         val screen = mock(DialogScreen::class.java)
-        subject.show(screen, dialogResultCallback)
+        subject.show(screen)
 
         verify<ScreenDispatcher<DialogScreen>>(dispatcher).show(screen)
     }
@@ -45,7 +45,7 @@ class OneSlotScreenFlowTest : SubjectSpek<OneSlotScreenFlow<DialogScreen>>({
         subject.subscribe(dispatcher)
 
         val screen = mock(DialogScreen::class.java)
-        val dismissScreen = subject.show(screen, dialogResultCallback)
+        val dismissScreen = subject.show(screen)
 
         dismissScreen.dispose()
 
@@ -60,7 +60,7 @@ class OneSlotScreenFlowTest : SubjectSpek<OneSlotScreenFlow<DialogScreen>>({
 
         val unsubscribeDispatcher = subject.subscribe(dispatcher)
 
-        subject.show(mock(), mock())
+        subject.show(mock())
 
         unsubscribeDispatcher.dispose()
 
@@ -75,7 +75,7 @@ class OneSlotScreenFlowTest : SubjectSpek<OneSlotScreenFlow<DialogScreen>>({
         val subscription1 = subject.subscribe(dialogScreenDispatcher1)
 
         val screen = mock(DialogScreen::class.java)
-        subject.show(screen, dialogResultCallback)
+        subject.show(screen)
 
         verify<ScreenDispatcher<DialogScreen>>(dialogScreenDispatcher1).show(screen)
 
