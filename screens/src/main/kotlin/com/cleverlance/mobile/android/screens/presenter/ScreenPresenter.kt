@@ -5,24 +5,16 @@ import com.cleverlance.mobile.android.screens.domain.BaseScreen
 import com.cleverlance.mobile.android.screens.domain.NoScreen
 import com.jakewharton.rxrelay2.BehaviorRelay
 import io.reactivex.Observable
-import io.reactivex.disposables.Disposable
-import io.reactivex.disposables.Disposables
 
 class ScreenPresenter {
-    private val screen: BehaviorRelay<BaseScreen> = BehaviorRelay.createDefault(NoScreen())
+    private val screenRelay: BehaviorRelay<BaseScreen> = BehaviorRelay.createDefault(NoScreen())
 
-    fun back(activity: Activity): Boolean = getScreen().onBackPressed()
+    var screen: BaseScreen
+        get() = screenRelay.value
+        set(screen) = screenRelay.accept(screen)
+
+    fun back(activity: Activity): Boolean = screen.onBackPressed()
 
     // TODO pass NoScreen or not?
-    fun screenObservable(): Observable<BaseScreen> = screen.filter { it !is NoScreen }
-
-    @Deprecated(message = "probably nobody should need this - each screen knows that it shows itself")
-            /* private */ fun getScreen(): BaseScreen = screen.value
-
-    fun setScreen(screen: BaseScreen) = this.screen.accept(screen)
-
-    fun onDisposeShowCurrent(): Disposable {
-        val previousScreen = getScreen() // capture current screen
-        return Disposables.fromRunnable { setScreen(previousScreen) }
-    }
+    fun screenObservable(): Observable<BaseScreen> = screenRelay.filter { it !is NoScreen }
 }
