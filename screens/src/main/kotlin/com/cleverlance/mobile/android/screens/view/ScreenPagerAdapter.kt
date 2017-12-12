@@ -1,13 +1,11 @@
 package com.cleverlance.mobile.android.screens.view
 
+import android.app.Activity
 import android.support.v4.view.PagerAdapter
 import android.view.View
 import android.view.ViewGroup
 import com.cleverlance.mobile.android.screens.domain.Screen
-import org.jetbrains.anko.AnkoComponent
-import org.jetbrains.anko.AnkoContext
-import org.jetbrains.anko.matchParent
-import org.jetbrains.anko.verticalLayout
+import com.cleverlance.mobile.android.screens.domain.createSelfBindingView
 
 abstract class ScreenPagerAdapter : PagerAdapter() {
 
@@ -24,5 +22,5 @@ abstract class ScreenPagerAdapter : PagerAdapter() {
     override fun isViewFromObject(view: View, any: Any) = view == any
 
     private fun createScreenContainer(container: ViewGroup, screen: Screen) =
-            ScreenContainerView(container.context, null).apply { setScreen(screen) }
+            screen.createSelfBindingView(container, container.context as Activity)
 }
