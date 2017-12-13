@@ -6,15 +6,10 @@ import com.cleverlance.mobile.android.screens.domain.NoScreen
 import com.jakewharton.rxrelay2.BehaviorRelay
 import io.reactivex.Observable
 
-class ScreenPresenter {
-    private val screenRelay: BehaviorRelay<BaseScreen> = BehaviorRelay.createDefault(NoScreen())
-
-    var screen: BaseScreen
-        get() = screenRelay.value
-        set(screen) = screenRelay.accept(screen)
+class ScreenPresenter : BaseScreenPresenter<BaseScreen>() {
+    override val screenRelay: BehaviorRelay<BaseScreen> = BehaviorRelay.createDefault(NoScreen())
 
     fun back(activity: Activity): Boolean = screen.onBackPressed()
 
-    // TODO pass NoScreen or not?
-    fun screenObservable(): Observable<BaseScreen> = screenRelay.filter { it !is NoScreen }
+    fun screenObservable(): Observable<BaseScreen> = screenRelay
 }

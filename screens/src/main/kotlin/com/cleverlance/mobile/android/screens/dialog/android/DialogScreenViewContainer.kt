@@ -3,6 +3,7 @@ package com.cleverlance.mobile.android.screens.dialog.android
 import android.app.Activity
 import android.support.annotation.MainThread
 import io.reactivex.disposables.Disposable
+import io.reactivex.disposables.Disposables
 
 /** Creates dialogView view based on provided screen and shows it  */
 class DialogScreenViewContainer(private val activity: Activity) : ScreenDispatcher<DialogScreen> {
@@ -13,7 +14,7 @@ class DialogScreenViewContainer(private val activity: Activity) : ScreenDispatch
     @MainThread
     override fun show(screen: DialogScreen): Disposable {
         return screen.createDialogScreenView(activity)
-                .apply { this.activity = this@DialogScreenViewContainer.activity }
-                .show()
+                ?.apply { this.activity = this@DialogScreenViewContainer.activity }
+                ?.show() ?: Disposables.empty()
     }
 }
