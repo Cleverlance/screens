@@ -11,6 +11,5 @@ fun ViewGroup.setScreen(screen: Screen) {
 }
 
 fun ViewGroup.addScreen(screen: Screen) {
-    val selfBindingView = screen.createSelfBindingView(this, context as Activity)
-    addView(selfBindingView)
+    screen.createSelfBindingView(this, context as Activity)?.let { addView(it) }
 }

@@ -8,8 +8,12 @@ import io.reactivex.disposables.CompositeDisposable
  * Dialog screen will be shown on subscribe and dismissed eagerly before onSuccess, onError or on unsubscribe
  * @param S screen type class
  */
-abstract class GenericDialogInvokeHelper<S> {
+abstract class GenericDialogInvokeHelper<in S> {
     protected abstract val screenFlow: ScreenFlow<S>
+
+    fun show(screenFactory: ScreenFactory<Unit, S>) {
+        completable(screenFactory).subscribe()
+    }
 
     fun completable(screenFactory: ScreenFactory<Unit, S>): Completable {
         return Completable.fromSingle<Unit>(forResult(screenFactory))
@@ -36,9 +40,9 @@ abstract class GenericDialogInvokeHelper<S> {
                     }
                 }
 
-                val screen = screenFactory.create(dialogResultCallback)
+                val screen = screenFactory(dialogResultCallback)
                 // show dialog screen
-                dismissScreen.add(screenFlow.show(screen, dialogResultCallback))
+                dismissScreen.add(screenFlow.show(screen))
             }
         }, CompositeDisposable::dispose) // dismiss dialog
     }

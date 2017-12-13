@@ -7,8 +7,8 @@ import com.cleverlance.mobile.android.screens.presenter.BasePresenterView
 import com.cleverlance.mobile.android.screens.presenter.createSelfBindingView
 
 interface ViewFactory {
-    fun createView(): BasePresenterView
+    fun createView(): BasePresenterView?
 }
 
-internal fun ViewFactory.createSelfBindingView(viewGroup: ViewGroup, activity: Activity): View =
-        createView().createSelfBindingView(viewGroup, activity)
+internal fun ViewFactory.createSelfBindingView(viewGroup: ViewGroup, activity: Activity): View? =
+        createView()?.createSelfBindingView(viewGroup, activity)

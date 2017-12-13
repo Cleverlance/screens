@@ -1,12 +1,9 @@
 package com.cleverlance.mobile.android.screens.presenter
 
 import com.cleverlance.mobile.android.screens.domain.BaseScreen
-import com.cleverlance.mobile.android.screens.domain.ScreenFactory
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.times
-import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import org.jetbrains.spek.api.dsl.context
 import org.jetbrains.spek.api.dsl.it
@@ -28,22 +25,9 @@ internal class ScreenPresenterSpec : SubjectSpek<ScreenPresenter>({
         it("should put new screen on top") {
             val screen = mock<BaseScreen>()
 
-            subject.setScreen(screen)
+            subject.screen = screen
 
-            assertThat(subject.getScreen(), equalTo(screen))
-        }
-    }
-
-    context("back") {
-        it("should go back to previous screen") {
-            val firstScreen = mock<BaseScreen>()
-
-            subject.setScreen(firstScreen)
-
-            subject.onDisposeShowCurrent().dispose()
-
-            subject.screenObservable().test().assertValue(firstScreen)
-            assertThat(subject.getScreen(), equalTo(firstScreen))
+            assertThat(subject.screen, equalTo(screen))
         }
     }
 
@@ -56,7 +40,7 @@ internal class ScreenPresenterSpec : SubjectSpek<ScreenPresenter>({
 
             val screen = mock<BaseScreen>()
 
-            subject.setScreen(screen)
+            subject.screen = screen
 
             observer.assertValue(screen)
         }
@@ -65,23 +49,8 @@ internal class ScreenPresenterSpec : SubjectSpek<ScreenPresenter>({
             val screen = mock<BaseScreen> {
                 whenever(it.onBackPressed()).thenReturn(false)
             }
-            subject.setScreen(screen)
+            subject.screen = screen
             assertThat(subject.back(mock()), equalTo(false))
-        }
-    }
-
-    context("ensure first screen") {
-        it("should create exactly one init screen") {
-            val screen = mock<BaseScreen>()
-            val screenFactory = mock<ScreenFactory> {
-                whenever(it.createScreen()).thenReturn(screen)
-            }
-
-            subject.ensureFirstScreen(screenFactory)
-            subject.ensureFirstScreen(screenFactory)
-
-            verify(screenFactory, times(1)).createScreen()
-            subject.screenObservable().test().assertValue(screen)
         }
     }
 })
