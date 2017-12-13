@@ -1,11 +1,10 @@
 package com.cleverlance.mobile.android.screens.dialog.flow
 
-import com.cleverlance.mobile.android.screens.dialog.DialogResultCallback
 import com.cleverlance.mobile.android.screens.dialog.android.DialogScreen
+import com.cleverlance.mobile.android.screens.dialog.android.NoDialogScreen
 import com.cleverlance.mobile.android.screens.dialog.android.ScreenDispatcher
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.reset
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.disposables.Disposable
 import org.jetbrains.spek.api.dsl.it
@@ -17,11 +16,8 @@ import org.mockito.Mockito.verify
 
 @RunWith(JUnitPlatform::class)
 class OneSlotScreenFlowTest : SubjectSpek<OneSlotScreenFlow<DialogScreen>>({
-    val dialogResultCallback: DialogResultCallback<*> = mock()
-
     subject {
-        reset(dialogResultCallback)
-        OneSlotScreenFlow()
+        OneSlotScreenFlow(NoDialogScreen())
     }
 
     it("show dialog view when dialog screen set") {

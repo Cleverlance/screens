@@ -25,22 +25,9 @@ internal class ScreenPresenterSpec : SubjectSpek<ScreenPresenter>({
         it("should put new screen on top") {
             val screen = mock<BaseScreen>()
 
-            subject.setScreen(screen)
+            subject.screen = screen
 
-            assertThat(subject.getScreen(), equalTo(screen))
-        }
-    }
-
-    context("back") {
-        it("should go back to previous screen") {
-            val firstScreen = mock<BaseScreen>()
-
-            subject.setScreen(firstScreen)
-
-            subject.onDisposeShowCurrent().dispose()
-
-            subject.screenObservable().test().assertValue(firstScreen)
-            assertThat(subject.getScreen(), equalTo(firstScreen))
+            assertThat(subject.screen, equalTo(screen))
         }
     }
 
@@ -53,7 +40,7 @@ internal class ScreenPresenterSpec : SubjectSpek<ScreenPresenter>({
 
             val screen = mock<BaseScreen>()
 
-            subject.setScreen(screen)
+            subject.screen = screen
 
             observer.assertValue(screen)
         }
@@ -62,7 +49,7 @@ internal class ScreenPresenterSpec : SubjectSpek<ScreenPresenter>({
             val screen = mock<BaseScreen> {
                 whenever(it.onBackPressed()).thenReturn(false)
             }
-            subject.setScreen(screen)
+            subject.screen = screen
             assertThat(subject.back(mock()), equalTo(false))
         }
     }

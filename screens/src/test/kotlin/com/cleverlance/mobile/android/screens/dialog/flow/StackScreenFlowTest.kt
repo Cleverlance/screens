@@ -2,6 +2,7 @@ package com.cleverlance.mobile.android.screens.dialog.flow
 
 import com.cleverlance.mobile.android.screens.dialog.DialogResultCallback
 import com.cleverlance.mobile.android.screens.dialog.android.DialogScreen
+import com.cleverlance.mobile.android.screens.dialog.android.NoDialogScreen
 import com.cleverlance.mobile.android.screens.dialog.android.ScreenDispatcher
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
@@ -21,7 +22,7 @@ class StackScreenFlowTest : SubjectSpek<StackScreenFlow<DialogScreen>>({
 
     subject {
         reset(dialogResultCallback)
-        StackScreenFlow()
+        StackScreenFlow(NoDialogScreen())
     }
 
     it("show dialog view when dialog screen set") {

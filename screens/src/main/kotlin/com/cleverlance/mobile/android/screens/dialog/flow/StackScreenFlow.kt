@@ -1,6 +1,8 @@
 package com.cleverlance.mobile.android.screens.dialog.flow
 
 import com.cleverlance.mobile.android.screens.dialog.ScreenFlow
+import com.cleverlance.mobile.android.screens.dialog.android.ScreenDispatcher
+import com.cleverlance.mobile.android.screens.dialog.android.subscribe
 import com.jakewharton.rxrelay2.BehaviorRelay
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
@@ -16,6 +18,9 @@ open class StackScreenFlow<ScreenType>(noScreen: ScreenType) : ScreenFlow<Screen
 
     fun screenObservable(): Observable<ScreenType> = updateSubject
             .map { stack.last() }
+
+    fun subscribe(dispatcher: ScreenDispatcher<ScreenType>) =
+            screenObservable().subscribe(dispatcher)
 
     /** Called from presenter  */
     override fun show(screen: ScreenType): Disposable {
