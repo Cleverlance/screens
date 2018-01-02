@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlinVersion = '1.2.0'
+    ext.kotlinVersion = '1.2.10'
     ext.junitPlatformVersion = '1.0.2'
 
     repositories {
@@ -28,12 +28,13 @@ ext {
     androidSupportVersion = '25.3.1'
     ankoVersion = '0.10.1'
     daggerVersion = '2.10'
-    spekVersion = '1.1.2'
+    spekVersion = '1.1.5'
 
     // Core libs
     supportCoreUi = "com.android.support:support-core-ui:$androidSupportVersion"
     supportAppCompat = "com.android.support:appcompat-v7:$androidSupportVersion"
     supportDesign = "com.android.support:design:$androidSupportVersion"
+    kotlinReflect = "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
     kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
     kotlinTest = "org.jetbrains.kotlin:kotlin-test:$kotlinVersion"
     ankoCommons = "org.jetbrains.anko:anko-commons:$ankoVersion"
@@ -49,8 +50,8 @@ ext {
     spekApi = "org.jetbrains.spek:spek-api:$spekVersion"
     spekJUnitPlatformEngine = "org.jetbrains.spek:spek-junit-platform-engine:$spekVersion"
     spekSubjectExtension = "org.jetbrains.spek:spek-subject-extension:$spekVersion"
-    jUnitJupiterApi = "org.junit.jupiter:junit-jupiter-api:5.0.0-M5"
-    jUnitPlatformRunner = "org.junit.platform:junit-platform-runner:1.0.0-M5"
+    jUnitJupiterApi = "org.junit.jupiter:junit-jupiter-api:5.0.0"
+    jUnitPlatformRunner = "org.junit.platform:junit-platform-runner:1.0.0"
     mockitoKotlin = 'com.nhaarman:mockito-kotlin:1.4.0'
     hamkrest = 'com.natpryce:hamkrest:1.4.0.0'
     androidSupportTestRunner = 'com.android.support.test:runner:0.5'
