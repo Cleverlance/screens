@@ -14,7 +14,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito.*
 
 @RunWith(JUnitPlatform::class)
-class OneSlotScreenFlowTest : SubjectSpek<OneSlotScreenFlow<DialogScreen>>({
+class OneSlotScreenFlowSpek : SubjectSpek<OneSlotScreenFlow<DialogScreen>>({
     subject {
         OneSlotScreenFlow(NoDialogScreen())
     }

@@ -16,7 +16,7 @@ import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 
 @RunWith(JUnitPlatform::class)
-class StackScreenFlowTest : SubjectSpek<StackScreenFlow<DialogScreen>>({
+class StackScreenFlowSpek : SubjectSpek<StackScreenFlow<DialogScreen>>({
     subject {
         StackScreenFlow(NoDialogScreen())
     }
