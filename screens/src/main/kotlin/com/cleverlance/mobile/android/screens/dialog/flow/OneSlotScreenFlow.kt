@@ -20,7 +20,7 @@ class OneSlotScreenFlow<ScreenType>(private val noScreen: ScreenType) : ScreenFl
     var screen: ScreenType
         get() = screenPresenter.screen
         set(value) {
-            screenPresenter.screen = screen
+            screenPresenter.screen = value
         }
 
     fun screenObservable(): Observable<ScreenType> = screenPresenter.screenRelay

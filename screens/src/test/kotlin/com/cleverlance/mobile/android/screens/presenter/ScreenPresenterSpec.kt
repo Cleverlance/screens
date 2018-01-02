@@ -1,6 +1,7 @@
 package com.cleverlance.mobile.android.screens.presenter
 
 import com.cleverlance.mobile.android.screens.domain.BaseScreen
+import com.cleverlance.mobile.android.screens.domain.NoScreen
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import com.nhaarman.mockito_kotlin.mock
@@ -15,10 +16,8 @@ import org.junit.runner.RunWith
 internal class ScreenPresenterSpec : SubjectSpek<ScreenPresenter>({
     subject { ScreenPresenter() }
 
-    context("get top screen") {
-        it("should get no screen by default") {
-            subject.screenObservable().test().assertNoValues()
-        }
+    it("should get NoScreen as default") {
+        subject.screenObservable().test().assertValue { it is NoScreen }
     }
 
     context("set screen") {
@@ -36,13 +35,11 @@ internal class ScreenPresenterSpec : SubjectSpek<ScreenPresenter>({
 
             val observer = subject.screenObservable().test()
 
-            observer.assertNoValues()
-
             val screen = mock<BaseScreen>()
 
             subject.screen = screen
 
-            observer.assertValue(screen)
+            assertThat(observer.values().last(), equalTo(screen))
         }
 
         it("should have non-consume back action when going back from initial screen") {
