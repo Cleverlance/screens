@@ -32,6 +32,7 @@ dependencies {
     implementation rxAndroid
     implementation rxRelay
 
+    testImplementation kotlinReflect
     testImplementation kotlinTest
     testImplementation spekApi
     testImplementation spekJUnitPlatformEngine
